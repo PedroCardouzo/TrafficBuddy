@@ -5,7 +5,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SemaphoreHistory {
+public class SemaphoreHistory implements ISemaphoreHistory {
   List<String> semaphoreLogs;
 
   public SemaphoreHistory() {
@@ -18,5 +18,9 @@ public class SemaphoreHistory {
 
   public List<String> getSemaphoreLogs() {
     return semaphoreLogs;
+  }
+
+  public static ISemaphoreHistory getLogger() {
+    return new SemaphoreHistory();
   }
 }

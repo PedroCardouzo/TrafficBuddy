@@ -7,27 +7,27 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class SemaphoreController {
+public class SemaphoreController implements ISemaphoreController {
   private static final long CONF_REESTIMATION_INTERVAL = 30;
-  private List<SemaphoreDriver> semaphoreDrivers;
-  private List<TrafficCameraDriver> trafficCameraDrivers;
+  private List<ISemaphoreDriver> semaphoreDrivers;
+  private List<ITrafficCameraDriver> trafficCameraDrivers;
   private List<Integer> openTimings;
-  private SemaphoreHistory semaphoreHistory;
+  private ISemaphoreHistory semaphoreHistory;
   private ScheduledExecutorService es;
   private int currentOpen;
   private boolean active;
 
-  public SemaphoreController() {
+  public SemaphoreController(final ISemaphoreHistory semaphoreHistory) {
     this.active = false;
     this.semaphoreDrivers = new ArrayList<>();
     this.trafficCameraDrivers = new ArrayList<>();
     this.openTimings = new ArrayList<>();
     this.es = Executors.newSingleThreadScheduledExecutor();
-    this.semaphoreHistory = new SemaphoreHistory();
+    this.semaphoreHistory = semaphoreHistory;
     this.currentOpen = -1;
   }
 
-  public void attachSemaphore(final SemaphoreDriver sd, final TrafficCameraDriver tcd, final int openTiming) {
+  public void attachSemaphore(final ISemaphoreDriver sd, final ITrafficCameraDriver tcd, final int openTiming) {
     this.semaphoreDrivers.add(sd);
     this.trafficCameraDrivers.add(tcd);
 
@@ -71,7 +71,7 @@ public class SemaphoreController {
 
   public void stop() {
     this.active = false;
-    this.semaphoreDrivers.forEach(SemaphoreDriver::close);
+    this.semaphoreDrivers.forEach(ISemaphoreDriver::close);
   }
 
   private void next() {
@@ -110,7 +110,7 @@ public class SemaphoreController {
       totalTime = openTimings.stream().mapToInt(Integer::intValue).sum();
     }
 
-    final List<Integer> trafficFlux = trafficCameraDrivers.stream().map(TrafficCameraDriver::getTraffixFlux).collect(Collectors.toList());
+    final List<Integer> trafficFlux = trafficCameraDrivers.stream().map(ITrafficCameraDriver::getTrafficFlux).collect(Collectors.toList());
     final int totalFlux = trafficFlux.stream().mapToInt(Integer::intValue).sum();
     // calculate relative flux
     synchronized (this) {

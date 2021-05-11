@@ -2,7 +2,7 @@ package SemaphoreUnit;
 
 import java.util.Random;
 
-public class TrafficCameraDriver {
+public class TrafficCameraDriver implements ITrafficCameraDriver {
   private final int upperbound;
   private Random rng;
 
@@ -11,7 +11,7 @@ public class TrafficCameraDriver {
     this.upperbound = upperbound;
   }
 
-  public int getTraffixFlux() {
+  public int getTrafficFlux() {
     return this.rng.nextInt(upperbound);
   }
 }

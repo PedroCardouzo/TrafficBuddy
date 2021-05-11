@@ -1,6 +1,6 @@
 package SemaphoreUnit;
 
-public class SemaphoreDriver {
+public class SemaphoreDriver implements ISemaphoreDriver {
   private boolean open;
 
   public SemaphoreDriver() {
