@@ -12,8 +12,8 @@ public class SemaphoreController implements ISemaphoreController {
   private List<ISemaphoreDriver> semaphoreDrivers;
   private List<ITrafficCameraDriver> trafficCameraDrivers;
   private List<Integer> openTimings;
-  private ISemaphoreHistory semaphoreHistory;
-  private ScheduledExecutorService es;
+  private final ISemaphoreHistory semaphoreHistory;
+  private final ScheduledExecutorService es;
   private int currentOpen;
   private boolean active;
 
