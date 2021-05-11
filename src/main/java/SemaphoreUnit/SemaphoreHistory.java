@@ -16,7 +16,7 @@ public class SemaphoreHistory implements ISemaphoreHistory {
     this.semaphoreLogs.add(Timestamp.from(Instant.now()).toString() + '\n' + logEntry);
   }
 
-  public List<String> getSemaphoreLogs() {
+  public List<String> getLogs() {
     return semaphoreLogs;
   }
 

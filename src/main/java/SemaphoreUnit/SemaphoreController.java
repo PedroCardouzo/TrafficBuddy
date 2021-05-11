@@ -95,7 +95,7 @@ public class SemaphoreController implements ISemaphoreController {
   }
 
   public List<String> getHistory() {
-    return this.semaphoreHistory.getSemaphoreLogs();
+    return this.semaphoreHistory.getLogs();
   }
 
   // simplified algorithm for best timings
