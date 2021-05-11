@@ -53,11 +53,7 @@ public class SemaphoreController implements ISemaphoreController {
     final StringBuilder sb = new StringBuilder();
 
     for (int i=0; i < copyTimings.size(); i++) {
-      sb.append("Semaphore ");
-      sb.append(i);
-      sb.append(": ");
-      sb.append(copyTimings.get(i));
-      sb.append('\n');
+      sb.append(String.format("Semaphore %s: Open length: %s | Traffic flux: %s\n", i, copyTimings.get(i), this.trafficCameraDrivers.get(i).getTrafficFlux()));
     }
 
     return sb.toString();
