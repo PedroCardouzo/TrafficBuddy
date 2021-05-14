@@ -10,6 +10,7 @@ import SpeedRadarUnit.ISpeedRadarController;
 import SpeedRadarUnit.InfractionHistory;
 import SpeedRadarUnit.SpeedRadarController;
 import SpeedRadarUnit.SpeedRadarDriver;
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Map;
@@ -49,5 +50,13 @@ public class ConfigurationManager {
 
   public Map<String, String> getSpeedRadarData(final String selectedSpeedRadar) {
     return this.speedRadarController.getSpeedRadarData(selectedSpeedRadar);
+  }
+
+  public void processInfractions() {
+    List<JSONObject> infractionHistory = this.speedRadarController.collectInfractionHistory();
+    infractionHistory.forEach(System.out::println);
+    // TODO database store here
+    // after
+    this.speedRadarController.clearInfractionHistory();
   }
 }

@@ -33,7 +33,9 @@ public class SpeedRadarDriver implements ISpeedRadarDriver {
       infractions.add(new Infraction("VGhpcyBpcyBhIGR1bW15IHN0cmluZyBmb3IgdGVzdGluZyBwdXJwb3Nlcwo=",
               rng.nextInt(100) + this.speedLimitWithTolerance,
               this.speedLimit,
-              this.speedLimitWithTolerance));
+              this.speedLimitWithTolerance,
+              this.ip,
+              this.description));
     }
 
     return infractions;

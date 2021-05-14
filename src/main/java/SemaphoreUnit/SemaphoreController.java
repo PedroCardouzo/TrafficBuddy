@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class SemaphoreController implements ISemaphoreController {
-  private static final long CONF_REESTIMATION_INTERVAL = 5;
   private List<ISemaphoreDriver> semaphoreDrivers;
   private List<ITrafficCameraDriver> trafficCameraDrivers;
   private List<Integer> openTimings;
@@ -67,7 +66,7 @@ public class SemaphoreController implements ISemaphoreController {
 
   public void start() {
     this.active = true;
-    this.es.scheduleAtFixedRate(this::reestimateTimings, 0, CONF_REESTIMATION_INTERVAL, TimeUnit.SECONDS);
+    this.es.scheduleAtFixedRate(this::reestimateTimings, 0, CustomConstants.CONF_REESTIMATION_INTERVAL, TimeUnit.SECONDS);
     this.next();
   }
 

@@ -1,5 +1,6 @@
 package SpeedRadarUnit;
 
+import General.CustomConstants;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -8,20 +9,24 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Infraction {
-  private String base64Image;
-  private String plate;
-  private int speed;
-  private int nominalMaxSpeed;
-  private int maxSpeedWithTolerance;
-  private String timestamp;
+  private final String base64Image;
+  private final String plate;
+  private final int speed;
+  private final int nominalMaxSpeed;
+  private final int maxSpeedWithTolerance;
+  private final String timestamp;
+  private final String originLocationDescription;
+  private final String originSpeedRadarIp;
 
-  public Infraction(final String base64Image, final int speed, final int nominalMaxSpeed, final int maxSpeedWithTolerance) {
+  public Infraction(final String base64Image, final int speed, final int nominalMaxSpeed, final int maxSpeedWithTolerance, final String originSpeedRadarIp, final String originLocationDescription) {
     this.base64Image = base64Image;
     this.plate = Infraction.extractPlateNumberFromBase64Image(base64Image);
     this.speed = speed;
     this.nominalMaxSpeed = nominalMaxSpeed;
     this.maxSpeedWithTolerance = maxSpeedWithTolerance;
     this.timestamp = Timestamp.from(Instant.now().minusSeconds(ThreadLocalRandom.current().nextInt(10000))).toString(); // for some variance
+    this.originLocationDescription = originLocationDescription;
+    this.originSpeedRadarIp = originSpeedRadarIp;
   }
 
   private static String extractPlateNumberFromBase64Image(String base64Image) {
@@ -38,15 +43,16 @@ public class Infraction {
     return plateBuilder.toString();
   }
 
-  @Override
-  public String toString() {
+  public JSONObject toJson() {
     JSONObject json = new JSONObject();
-    json.put("base64Image", this.base64Image);
-    json.put("plate", this.plate);
-    json.put("speed", this.speed);
-    json.put("nominalMaxSpeed", this.nominalMaxSpeed);
-    json.put("maxSpeedWithTolerance", this.maxSpeedWithTolerance);
-    json.put("timestamp", this.timestamp);
-    return json.toString();
+    json.put(CustomConstants.BASE_64_IMAGE_JSON, this.base64Image);
+    json.put(CustomConstants.PLATE_JSON, this.plate);
+    json.put(CustomConstants.SPEED_JSON, this.speed);
+    json.put(CustomConstants.NOMINAL_MAX_SPEED_JSON, this.nominalMaxSpeed);
+    json.put(CustomConstants.MAX_SPEED_WITH_TOLERANCE_JSON, this.maxSpeedWithTolerance);
+    json.put(CustomConstants.LOCATION_DESCRIPTION_JSON, this.originLocationDescription);
+    json.put(CustomConstants.ORIGIN_SPEED_RADAR_JSON, this.originSpeedRadarIp);
+    json.put(CustomConstants.TIMESTAMP_JSON, this.timestamp);
+    return json;
   }
 }

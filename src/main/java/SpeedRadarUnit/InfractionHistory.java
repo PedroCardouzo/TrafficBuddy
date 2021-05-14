@@ -1,22 +1,24 @@
 package SpeedRadarUnit;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class InfractionHistory implements IInfractionHistory {
-  List<String> history;
+  List<JSONObject> history;
 
   public InfractionHistory() {
     this.history = new ArrayList<>();
   }
 
   @Override
-  public void log(String logEntry) {
+  public void log(JSONObject logEntry) {
     this.history.add(logEntry);
   }
 
   @Override
-  public List<String> getLogs() {
+  public List<JSONObject> getLogs() {
     return this.history;
   }
 

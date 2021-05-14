@@ -1,19 +1,18 @@
 package SpeedRadarUnit;
 
 import General.CustomConstants;
-import SemaphoreUnit.ISemaphoreDriver;
+import netscape.javascript.JSObject;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 public class SpeedRadarController implements ISpeedRadarController {
   private final ScheduledExecutorService es;
@@ -52,16 +51,18 @@ public class SpeedRadarController implements ISpeedRadarController {
     while (!this.infractionPollTask.cancel(false));
   }
 
-  public List<String> collectInfractionHistory() {
+  @Override
+  public List<JSONObject> collectInfractionHistory() {
     return this.infractionHistory.getLogs();
   }
 
+  @Override
   public void clearInfractionHistory() {
     this.infractionHistory.clear();
   }
 
   private synchronized void gatherInfractionsIntoHistory() {
-    this.speedRadarDrivers.stream().map(ISpeedRadarDriver::getInfractions).map(Objects::toString).forEach(infractionHistory::log);
+    this.speedRadarDrivers.stream().map(ISpeedRadarDriver::getInfractions).forEach((List<Infraction> infractionList) -> infractionList.forEach(x -> infractionHistory.log(x.toJson())));
   }
 
   @Override

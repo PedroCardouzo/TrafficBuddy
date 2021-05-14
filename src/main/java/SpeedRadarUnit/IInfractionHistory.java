@@ -1,11 +1,13 @@
 package SpeedRadarUnit;
 
+import org.json.JSONObject;
+
 import java.util.List;
 
 public interface IInfractionHistory {
-  void log(final String logEntry);
+  void log(final JSONObject logEntry);
 
-  List<String> getLogs();
+  List<JSONObject> getLogs();
 
   void clear();
 }

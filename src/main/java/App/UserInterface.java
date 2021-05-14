@@ -4,6 +4,8 @@ import General.CustomConstants;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +38,8 @@ public class UserInterface {
   private JTextField ipAddressSRText;
   private JTextField speedLimitText;
   private JTextField descriptionSRText;
+  private JPanel configureSpeedRadarPanel;
+  private JButton infractionCommitButton;
   private CardLayout cardLayout;
   private ButtonGroup group;
 
@@ -100,6 +104,16 @@ public class UserInterface {
         speedLimitText.setText(semaphoreData.getOrDefault(CustomConstants.TRAFFIC_FLUX, ""));
         descriptionSRText.setText(semaphoreData.getOrDefault(CustomConstants.DEVICE_DESCRIPTION, ""));
       }
+    });
+
+    confSpeedRadarButton.addActionListener(actionEvent -> {
+      speedRadarDropdown.removeAllItems();
+      this.confManager.getSemaphoreList().forEach(speedRadarDropdown::addItem);
+      this.cardLayout.show(cardPanel, "configureSpeedRadarPanel");
+    });
+
+    infractionCommitButton.addActionListener(actionEvent -> {
+      this.confManager.processInfractions();
     });
   }
 
