@@ -2,22 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62aab043-2636-47b6-b019-8d26a72ebaff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/App/ConfigurationManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/App/UserInterface.form" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/App/UserInterface.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/General/CustomConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ITrafficCameraDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ITrafficCameraDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/TrafficCameraDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/TrafficCameraDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/ISpeedRadarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/ISpeedRadarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Test.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -97,7 +82,7 @@
       <updated>1620705106856</updated>
       <workItem from="1620705110279" duration="14244000" />
       <workItem from="1620754527233" duration="1964000" />
-      <workItem from="1620935753544" duration="22415000" />
+      <workItem from="1620935753544" duration="37970000" />
     </task>
     <servers />
   </component>
@@ -116,5 +101,27 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java</url>
+          <line>158</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java</url>
+          <line>113</line>
+          <properties>
+            <option name="lambda-ordinal" value="-1" />
+          </properties>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
