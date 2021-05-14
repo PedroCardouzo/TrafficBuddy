@@ -1,7 +1,12 @@
 package SemaphoreUnit;
 
+import General.CustomConstants;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -27,12 +32,13 @@ public class SemaphoreController implements ISemaphoreController {
     this.currentOpen = -1;
   }
 
-  public void attachSemaphore(final ISemaphoreDriver sd, final ITrafficCameraDriver tcd, final int openTiming) {
+  @Override
+  public void attachSemaphore(final ISemaphoreDriver sd, final ITrafficCameraDriver tcd) {
     this.semaphoreDrivers.add(sd);
     this.trafficCameraDrivers.add(tcd);
 
     synchronized (this) {
-      this.openTimings.add(openTiming);
+      this.openTimings.add(CustomConstants.DEFAULT_OPEN_TIMING);
     }
   }
 
@@ -70,6 +76,51 @@ public class SemaphoreController implements ISemaphoreController {
     this.semaphoreDrivers.forEach(ISemaphoreDriver::close);
   }
 
+  @Override
+  public Map<String, String> getSemaphoreData(final String target) {
+    for (int i = 0; i < semaphoreDrivers.size(); i++) {
+      final ISemaphoreDriver sd = semaphoreDrivers.get(i);
+
+      if (sd.getIp().equals(target)) {
+        Map<String, String> newSemaphoreData = new HashMap<>();
+        newSemaphoreData.put("ipAddress", sd.getIp());
+        newSemaphoreData.put("trafficFlux", String.valueOf(trafficCameraDrivers.get(i).getTrafficFlux()));
+        newSemaphoreData.put("semDescription", sd.getDescription());
+
+        synchronized (this) {
+          newSemaphoreData.put("cyclePeriod", String.valueOf(openTimings.stream().mapToInt(Integer::intValue).sum()));
+        }
+
+        return newSemaphoreData;
+      }
+    }
+
+    return Collections.emptyMap();
+  }
+
+  @Override
+  public void setSemaphoreData(Map<String, String> newSemaphoreData) {
+    final String ip = newSemaphoreData.getOrDefault("ipAddress", "");
+    ISemaphoreDriver semaphore = semaphoreDrivers.stream().filter((ISemaphoreDriver x) -> x.getIp().equals(ip)).findFirst().orElse(null);
+
+    if (semaphore != null) {
+      final int index = semaphoreDrivers.indexOf(semaphore);
+      semaphore.setDescription(newSemaphoreData.getOrDefault(CustomConstants.SEMAPHORE_DESCRIPTION, ""));
+      trafficCameraDrivers.get(index).setTrafficFlux(Integer.parseInt(newSemaphoreData.get(CustomConstants.TRAFFIC_FLUX)));
+      final int newSum = Integer.parseInt(newSemaphoreData.get("cyclePeriod"));
+
+      synchronized (this) {
+        final int sum = openTimings.stream().mapToInt(Integer::intValue).sum();
+        this.openTimings = openTimings.stream().map(x -> x * newSum / sum).collect(Collectors.toList()); // scale timings equally
+      }
+    }
+  }
+
+  @Override
+  public List<String> getSemaphoreList() {
+    return semaphoreDrivers.stream().map(ISemaphoreDriver::getIp).collect(Collectors.toList());
+  }
+
   private void next() {
     if (!active)
       return;
@@ -100,16 +151,11 @@ public class SemaphoreController implements ISemaphoreController {
 
   // simplified algorithm for best timings
   private void reestimateTimings() {
-    int totalTime;
-
-    synchronized (this) {
-      totalTime = openTimings.stream().mapToInt(Integer::intValue).sum();
-    }
-
     final List<Integer> trafficFlux = trafficCameraDrivers.stream().map(ITrafficCameraDriver::getTrafficFlux).collect(Collectors.toList());
     final int totalFlux = trafficFlux.stream().mapToInt(Integer::intValue).sum();
     // calculate relative flux
     synchronized (this) {
+      final int totalTime = openTimings.stream().mapToInt(Integer::intValue).sum();
       this.openTimings = trafficFlux.stream().map(flux -> totalTime * flux / totalFlux).collect(Collectors.toList());
     }
 

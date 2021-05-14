@@ -56,4 +56,9 @@ public class SpeedRadarController implements ISpeedRadarController {
   private synchronized void gatherInfractionsIntoHistory() {
     this.speedRadarDrivers.stream().map(ISpeedRadarDriver::getInfractions).map(Objects::toString).forEach(infractionHistory::log);
   }
+
+  @Override
+  public void attachSpeedRadar(final SpeedRadarDriver speedRadarDriver) {
+    this.speedRadarDrivers.add(speedRadarDriver);
+  }
 }

@@ -11,10 +11,12 @@ public class SpeedRadarDriver implements ISpeedRadarDriver {
 
   private final int speedLimit;
   private final int speedLimitWithTolerance;
+  private final String ip;
 
-  public SpeedRadarDriver(int speedLimit) {
+  public SpeedRadarDriver(final String ip, int speedLimit) {
     this.speedLimit = speedLimit;
     this.speedLimitWithTolerance = toleranceFunction(speedLimit);
+    this.ip = ip;
   }
 
   private int toleranceFunction(int speedLimit) {
