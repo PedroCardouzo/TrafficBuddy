@@ -3,20 +3,19 @@ package SpeedRadarUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.function.Consumer;
 
 public class SpeedRadarDriver implements ISpeedRadarDriver {
 
-  private final int speedLimit;
-  private final int speedLimitWithTolerance;
+  private int speedLimit;
+  private int speedLimitWithTolerance;
   private final String ip;
+  private String description;
 
-  public SpeedRadarDriver(final String ip, int speedLimit) {
-    this.speedLimit = speedLimit;
-    this.speedLimitWithTolerance = toleranceFunction(speedLimit);
+  public SpeedRadarDriver(final String ip, final String description, int speedLimit) {
     this.ip = ip;
+    this.description = description;
+    this.setSpeedLimit(speedLimit);
   }
 
   private int toleranceFunction(int speedLimit) {
@@ -38,5 +37,31 @@ public class SpeedRadarDriver implements ISpeedRadarDriver {
     }
 
     return infractions;
+  }
+
+  @Override
+  public String getIp() {
+    return this.ip;
+  }
+
+  @Override
+  public String getDescription() {
+    return this.description;
+  }
+
+  @Override
+  public int getSpeedLimit() {
+    return this.speedLimit;
+  }
+
+  @Override
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  @Override
+  public void setSpeedLimit(int newSpeedLimit) {
+    this.speedLimit = newSpeedLimit;
+    this.speedLimitWithTolerance = toleranceFunction(newSpeedLimit);
   }
 }

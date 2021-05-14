@@ -5,9 +5,10 @@ public class SemaphoreDriver implements ISemaphoreDriver {
   private boolean open;
   private final String ip;
 
-  public SemaphoreDriver(final String ip) {
+  public SemaphoreDriver(final String ip, final String description) {
     this.open = false;
     this.ip = ip;
+    this.description = description;
   }
 
   @Override

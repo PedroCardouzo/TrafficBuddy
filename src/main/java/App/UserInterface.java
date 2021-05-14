@@ -4,17 +4,14 @@ import General.CustomConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class UserInterface {
   private final ConfigurationManager confManager;
   private JPanel cardPanel;
   private JPanel addDeviceViewPanel;
-  private JTextField textField1;
+  private JTextField deviceIpTextField;
   private JRadioButton semaphore;
   private JRadioButton speedRadar;
   private JRadioButton display;
@@ -33,6 +30,12 @@ public class UserInterface {
   private JButton backButton2;
   private JButton modifySemaphore;
   private JTextField semDescription;
+  private JTextField descriptionTextField;
+  private JLabel openTimingLabel;
+  private JComboBox speedRadarDropdown;
+  private JTextField ipAddressSRText;
+  private JTextField speedLimitText;
+  private JTextField descriptionSRText;
   private CardLayout cardLayout;
   private ButtonGroup group;
 
@@ -45,13 +48,14 @@ public class UserInterface {
     this.confManager = new ConfigurationManager();
 
     addButton.addActionListener(actionEvent -> {
-      final String ipAddress = textField1.getText();
+      final String ipAddress = deviceIpTextField.getText();
+      final String description = descriptionTextField.getText();
       if (semaphore.isSelected()) {
-        this.confManager.attachSemaphore(ipAddress);
+        this.confManager.attachSemaphore(ipAddress, description);
       } else if (speedRadar.isSelected()) {
-        this.confManager.attachSpeedRadar(ipAddress);
+        this.confManager.attachSpeedRadar(ipAddress, description);
       } else if (display.isSelected()) {
-        this.confManager.attachDisplay(ipAddress);
+        this.confManager.attachDisplay(ipAddress, description);
       }
     });
 
@@ -60,6 +64,7 @@ public class UserInterface {
     backButton2.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "mainMenuPanel"));
 
     confSemaphoresButton.addActionListener(actionEvent -> {
+      semaphoresDropdown.removeAllItems();
       this.confManager.getSemaphoreList().forEach(semaphoresDropdown::addItem);
       this.cardLayout.show(cardPanel, "configureSemaphoresPanel");
     });
@@ -69,16 +74,32 @@ public class UserInterface {
       newSemaphoreData.put(CustomConstants.IP_ADDRESS, ipAddress.getText());
       newSemaphoreData.put(CustomConstants.TRAFFIC_FLUX, trafficFlux.getText());
       newSemaphoreData.put(CustomConstants.CYCLE_PERIOD, cyclePeriod.getText());
-      newSemaphoreData.put(CustomConstants.SEMAPHORE_DESCRIPTION, semDescription.getText());
+      newSemaphoreData.put(CustomConstants.DEVICE_DESCRIPTION, semDescription.getText());
       this.confManager.setSemaphoreData(newSemaphoreData);
     }));
 
     semaphoresDropdown.addActionListener(actionEvent -> {
-      final Map<String, String> semaphoreData = this.confManager.getSemaphoreData(Objects.requireNonNull(semaphoresDropdown.getSelectedItem()).toString());
-      ipAddress.setText(semaphoreData.getOrDefault(CustomConstants.IP_ADDRESS, ""));
-      trafficFlux.setText(semaphoreData.getOrDefault(CustomConstants.TRAFFIC_FLUX, ""));
-      cyclePeriod.setText(semaphoreData.getOrDefault(CustomConstants.CYCLE_PERIOD, ""));
-      semDescription.setText(semaphoreData.getOrDefault(CustomConstants.SEMAPHORE_DESCRIPTION, ""));
+      final Object selectedItem = semaphoresDropdown.getSelectedItem();
+
+      if (selectedItem != null) {
+        final Map<String, String> semaphoreData = this.confManager.getSemaphoreData(selectedItem.toString());
+        ipAddress.setText(semaphoreData.getOrDefault(CustomConstants.IP_ADDRESS, ""));
+        trafficFlux.setText(semaphoreData.getOrDefault(CustomConstants.TRAFFIC_FLUX, ""));
+        cyclePeriod.setText(semaphoreData.getOrDefault(CustomConstants.CYCLE_PERIOD, ""));
+        semDescription.setText(semaphoreData.getOrDefault(CustomConstants.DEVICE_DESCRIPTION, ""));
+        openTimingLabel.setText(semaphoreData.getOrDefault(CustomConstants.SEMAPHORE_TIMING, ""));
+      }
+    });
+
+    speedRadarDropdown.addActionListener(actionEvent -> {
+      final Object selectedItem = speedRadarDropdown.getSelectedItem();
+
+      if (selectedItem != null) {
+        final Map<String, String> semaphoreData = this.confManager.getSpeedRadarData(selectedItem.toString());
+        ipAddressSRText.setText(semaphoreData.getOrDefault(CustomConstants.IP_ADDRESS, ""));
+        speedLimitText.setText(semaphoreData.getOrDefault(CustomConstants.TRAFFIC_FLUX, ""));
+        descriptionSRText.setText(semaphoreData.getOrDefault(CustomConstants.DEVICE_DESCRIPTION, ""));
+      }
     });
   }
 

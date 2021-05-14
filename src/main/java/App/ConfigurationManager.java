@@ -27,23 +27,27 @@ public class ConfigurationManager {
     this.semaphoreController.setSemaphoreData(newSemaphoreData);
   }
 
-  public Map<String, String> getSemaphoreData(final String selectedItem) {
-    return this.semaphoreController.getSemaphoreData(selectedItem);
+  public Map<String, String> getSemaphoreData(final String selectedSemaphore) {
+    return this.semaphoreController.getSemaphoreData(selectedSemaphore);
   }
 
   public List<String> getSemaphoreList() {
     return this.semaphoreController.getSemaphoreList();
   }
 
-  public void attachSemaphore(final String ipAddress) {
-    this.semaphoreController.attachSemaphore(new SemaphoreDriver(ipAddress), new TrafficCameraDriver(ipAddress));
+  public void attachSemaphore(final String ipAddress, final String description) {
+    this.semaphoreController.attachSemaphore(new SemaphoreDriver(ipAddress, description), new TrafficCameraDriver(ipAddress));
   }
 
-  public void attachSpeedRadar(final String ipAddress) {
-    this.speedRadarController.attachSpeedRadar(new SpeedRadarDriver(ipAddress, CustomConstants.DEFAULT_SPEED_LIMIT));
+  public void attachSpeedRadar(final String ipAddress, final String description) {
+    this.speedRadarController.attachSpeedRadar(new SpeedRadarDriver(ipAddress, description, CustomConstants.DEFAULT_SPEED_LIMIT));
   }
 
-  public void attachDisplay(final String ipAddress) {
+  public void attachDisplay(final String ipAddress, final String description) {
     // TODO implement
+  }
+
+  public Map<String, String> getSpeedRadarData(final String selectedSpeedRadar) {
+    return this.speedRadarController.getSpeedRadarData(selectedSpeedRadar);
   }
 }

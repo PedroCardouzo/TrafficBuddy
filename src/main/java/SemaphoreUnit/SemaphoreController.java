@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class SemaphoreController implements ISemaphoreController {
-  private static final long CONF_REESTIMATION_INTERVAL = 30;
+  private static final long CONF_REESTIMATION_INTERVAL = 5;
   private List<ISemaphoreDriver> semaphoreDrivers;
   private List<ITrafficCameraDriver> trafficCameraDrivers;
   private List<Integer> openTimings;
@@ -83,12 +83,13 @@ public class SemaphoreController implements ISemaphoreController {
 
       if (sd.getIp().equals(target)) {
         Map<String, String> newSemaphoreData = new HashMap<>();
-        newSemaphoreData.put("ipAddress", sd.getIp());
-        newSemaphoreData.put("trafficFlux", String.valueOf(trafficCameraDrivers.get(i).getTrafficFlux()));
-        newSemaphoreData.put("semDescription", sd.getDescription());
+        newSemaphoreData.put(CustomConstants.IP_ADDRESS, sd.getIp());
+        newSemaphoreData.put(CustomConstants.TRAFFIC_FLUX, String.valueOf(trafficCameraDrivers.get(i).getTrafficFlux()));
+        newSemaphoreData.put(CustomConstants.DEVICE_DESCRIPTION, sd.getDescription());
 
         synchronized (this) {
-          newSemaphoreData.put("cyclePeriod", String.valueOf(openTimings.stream().mapToInt(Integer::intValue).sum()));
+          newSemaphoreData.put(CustomConstants.CYCLE_PERIOD, String.valueOf(openTimings.stream().mapToInt(Integer::intValue).sum()));
+          newSemaphoreData.put(CustomConstants.SEMAPHORE_TIMING, String.valueOf(openTimings.get(i)));
         }
 
         return newSemaphoreData;
@@ -105,7 +106,7 @@ public class SemaphoreController implements ISemaphoreController {
 
     if (semaphore != null) {
       final int index = semaphoreDrivers.indexOf(semaphore);
-      semaphore.setDescription(newSemaphoreData.getOrDefault(CustomConstants.SEMAPHORE_DESCRIPTION, ""));
+      semaphore.setDescription(newSemaphoreData.getOrDefault(CustomConstants.DEVICE_DESCRIPTION, ""));
       trafficCameraDrivers.get(index).setTrafficFlux(Integer.parseInt(newSemaphoreData.get(CustomConstants.TRAFFIC_FLUX)));
       final int newSum = Integer.parseInt(newSemaphoreData.get("cyclePeriod"));
 
