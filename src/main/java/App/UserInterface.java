@@ -54,6 +54,7 @@ public class UserInterface {
   private JTextField descriptionDispText;
   private JPanel configureDisplayPanel;
   private JButton backButton4;
+  private JButton modifyDisplayButton;
   private CardLayout cardLayout;
   private ButtonGroup group;
 
@@ -183,7 +184,16 @@ public class UserInterface {
       this.appManager.getDisplayList().forEach(speedRadarDropdown::addItem);
     });
 
-    manualMessageCheckbox.addActionListener(actionEvent -> messageDispText.setEditable(!manualMessageCheckbox.isSelected()));
+    manualMessageCheckbox.addActionListener(actionEvent -> messageDispText.setEditable(manualMessageCheckbox.isSelected()));
+
+    modifyDisplayButton.addActionListener(actionEvent -> {
+      Map<String, String> newDisplayData = new HashMap<>();
+      newDisplayData.put(CustomConstants.IP_ADDRESS, ipAddressDispText.getText());
+      newDisplayData.put(CustomConstants.DISPLAY_MESSAGE, messageDispText.getText());
+      newDisplayData.put(CustomConstants.DISPLAY_MANUAL_MODE, String.valueOf(manualMessageCheckbox.isSelected()));
+      newDisplayData.put(CustomConstants.DEVICE_DESCRIPTION, descriptionDispText.getText());
+      this.appManager.setDisplayData(newDisplayData);
+    });
   }
 
   public void run() {

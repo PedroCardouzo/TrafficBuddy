@@ -52,6 +52,9 @@ public class SemaphoreDriver implements ISemaphoreDriver {
 
   @Override
   public void setFluxIntensityMessage(final String fluxIntensity) {
+    if (this.fluxIntensityMessage != null && this.fluxIntensityMessage.equals(fluxIntensity))
+      return;
+
     this.fluxIntensityMessage = fluxIntensity;
     this.displays.forEach(d -> d.setMessage(fluxIntensityMessage));
   }

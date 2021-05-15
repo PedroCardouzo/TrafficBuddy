@@ -91,4 +91,8 @@ public class AppManager {
   public Map<String, String> getDisplayData(final String displayIp) {
     return this.displayController.getDisplayData(displayIp);
   }
+
+  public void setDisplayData(final Map<String, String> newDisplayData) {
+    this.displayController.setDisplayData(newDisplayData);
+  }
 }

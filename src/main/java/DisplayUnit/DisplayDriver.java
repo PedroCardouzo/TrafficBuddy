@@ -31,7 +31,7 @@ public class DisplayDriver implements IDisplayDriver {
   }
 
   @Override
-  public void clearManualMessage() {
+  public void exitManualMode() {
     this.manualMode = false;
   }
 

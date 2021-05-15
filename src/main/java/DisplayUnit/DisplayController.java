@@ -2,18 +2,12 @@ package DisplayUnit;
 
 import General.CustomConstants;
 import General.IHistoryRecorder;
-import SemaphoreUnit.ISemaphoreDriver;
-import SpeedRadarUnit.ISpeedRadarDriver;
 
 import java.util.ArrayList;;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class DisplayController implements IDisplayController {
@@ -78,6 +72,7 @@ public class DisplayController implements IDisplayController {
       if (manualMode) {
         display.setManualMessage(msg);
       } else {
+        display.exitManualMode();
         display.setMessage(msg);
       }
     }

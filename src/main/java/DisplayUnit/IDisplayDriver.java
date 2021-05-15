@@ -7,7 +7,7 @@ public interface IDisplayDriver {
 
   String getMessage();
 
-  void clearManualMessage();
+  void exitManualMode();
 
   String getIp();
 
