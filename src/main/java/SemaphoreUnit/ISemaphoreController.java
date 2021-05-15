@@ -17,4 +17,6 @@ public interface ISemaphoreController {
   void start();
 
   void stop();
+
+  ISemaphoreDriver getSemaphore(String ipAddress);
 }

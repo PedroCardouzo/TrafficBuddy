@@ -98,6 +98,11 @@ public class SemaphoreController implements ISemaphoreController {
   }
 
   @Override
+  public ISemaphoreDriver getSemaphore(String ipAddress) {
+    return semaphoreDrivers.stream().filter((ISemaphoreDriver x) -> x.getIp().equals(ipAddress)).findFirst().orElse(null);
+  }
+
+  @Override
   public Map<String, String> getSemaphoreData(final String target) {
     for (int i = 0; i < semaphoreDrivers.size(); i++) {
       final ISemaphoreDriver sd = semaphoreDrivers.get(i);
@@ -183,9 +188,31 @@ public class SemaphoreController implements ISemaphoreController {
     // calculate relative flux
     synchronized (this) {
       final int totalTime = openTimings.stream().mapToInt(Integer::intValue).sum();
+
       this.openTimings = trafficFlux.stream().map(flux -> totalTime * flux / totalFlux).collect(Collectors.toList());
     }
 
+    for (int i = 0; i < semaphoreDrivers.size(); i++) {
+      final ISemaphoreDriver sd = semaphoreDrivers.get(i);
+      final ITrafficCameraDriver tcd = trafficCameraDrivers.get(i);
+
+      sd.setFluxIntensityMessage(this.getFluxIntensity(tcd.getTrafficFlux(), totalFlux));
+    }
+
     this.semaphoreHistory.log(this.toString());
+  }
+
+  private String getFluxIntensity(int trafficFlux, int totalFlux) {
+    final float percentage = (float) 100*trafficFlux / totalFlux;
+
+    if (percentage >= CustomConstants.FLUX_HIGH_PERCENTAGE) {
+      return CustomConstants.FLUX_VERY_HIGH_PERCENTAGE_MESSAGE;
+    } else if (percentage >= CustomConstants.FLUX_MEDIUM_PERCENTAGE) {
+      return CustomConstants.FLUX_HIGH_PERCENTAGE_MESSAGE;
+    } else if (percentage >= CustomConstants.FLUX_LOW_PERCENTAGE) {
+      return CustomConstants.FLUX_MEDIUM_PERCENTAGE_MESSAGE;
+    } else {
+      return CustomConstants.FLUX_LOW_PERCENTAGE_MESSAGE;
+    }
   }
 }

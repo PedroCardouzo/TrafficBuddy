@@ -4,6 +4,7 @@ public class SemaphoreDriver implements ISemaphoreDriver {
   private String description;
   private boolean open;
   private final String ip;
+  private String fluxIntensityMessage;
 
   public SemaphoreDriver(final String ip, final String description) {
     this.open = false;
@@ -40,6 +41,16 @@ public class SemaphoreDriver implements ISemaphoreDriver {
   @Override
   public void setDescription(final String description) {
     this.description = description;
+  }
+
+  @Override
+  public void setFluxIntensityMessage(final String fluxIntensity) {
+    this.fluxIntensityMessage = fluxIntensity;
+  }
+
+  @Override
+  public String getFluxIntensityMessage() {
+    return this.fluxIntensityMessage;
   }
 
   private void updateSemaphoreHardwareToOpen() {

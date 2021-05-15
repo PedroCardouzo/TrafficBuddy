@@ -1,5 +1,8 @@
 package App;
 
+import DisplayUnit.DisplayController;
+import DisplayUnit.DisplayDriver;
+import DisplayUnit.DisplayHistory;
 import General.CustomConstants;
 import SemaphoreUnit.ISemaphoreController;
 import SemaphoreUnit.SemaphoreController;
@@ -18,10 +21,12 @@ import java.util.Map;
 public class AppManager {
   private final ISemaphoreController semaphoreController;
   private final ISpeedRadarController speedRadarController;
+  private final DisplayController displayController;
 
   public AppManager() {
     this.semaphoreController = new SemaphoreController(new SemaphoreHistory());
     this.speedRadarController = new SpeedRadarController(new InfractionHistory());
+    this.displayController = new DisplayController(new DisplayHistory());
   }
 
   public void setSemaphoreData(Map<String, String> newSemaphoreData) {
@@ -44,8 +49,8 @@ public class AppManager {
     this.speedRadarController.attachSpeedRadar(new SpeedRadarDriver(ipAddress, description, CustomConstants.DEFAULT_SPEED_LIMIT));
   }
 
-  public void attachDisplay(final String ipAddress, final String description) {
-    // TODO implement
+  public void attachDisplay(final String ipAddress, final String description, final String semaphoreIpAddress) {
+    this.displayController.attachDisplay(new DisplayDriver(ipAddress, description), this.semaphoreController.getSemaphore(semaphoreIpAddress));
   }
 
   public Map<String, String> getSpeedRadarData(final String selectedSpeedRadar) {
@@ -76,5 +81,13 @@ public class AppManager {
 
   public List<String> getSpeedRadarList() {
     return this.speedRadarController.getSpeedRadarList();
+  }
+
+  public List<String> getDisplayList() {
+    return this.displayController.getDisplayList();
+  }
+
+  public Map<String, String> getDisplayData(final String displayIp) {
+    return this.displayController.getDisplayData(displayIp);
   }
 }

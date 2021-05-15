@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserInterface {
   private final AppManager appManager;
@@ -44,8 +45,15 @@ public class UserInterface {
   private JButton backButton3;
   private JTextField reestimationTiming;
   private JTextField infractionPollPeriodText;
-  private JPanel semaphoreMonitoring;
   private JButton startStop;
+  private JComboBox selectionSemaphoreDropdown;
+  private JComboBox displayDropdown;
+  private JCheckBox manualMessageCheckbox;
+  private JTextField ipAddressDispText;
+  private JTextField messageDispText;
+  private JTextField descriptionDispText;
+  private JPanel configureDisplayPanel;
+  private JButton backButton4;
   private CardLayout cardLayout;
   private ButtonGroup group;
 
@@ -63,17 +71,26 @@ public class UserInterface {
 
       if (semaphore.isSelected()) {
         this.appManager.attachSemaphore(ipAddress, description);
+        selectionSemaphoreDropdown.removeAllItems();
+        this.appManager.getSemaphoreList().forEach(selectionSemaphoreDropdown::addItem);
       } else if (speedRadar.isSelected()) {
         this.appManager.attachSpeedRadar(ipAddress, description);
       } else if (display.isSelected()) {
-        this.appManager.attachDisplay(ipAddress, description);
+        final String selectedSemaphoreForDisplay = Objects.requireNonNull(selectionSemaphoreDropdown.getSelectedItem()).toString();
+        this.appManager.attachDisplay(ipAddress, description, selectedSemaphoreForDisplay);
       }
     });
 
-    addDevicesButton.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "addDevicePanel"));
+    addDevicesButton.addActionListener(actionEvent -> {
+      selectionSemaphoreDropdown.removeAllItems();
+      this.appManager.getSemaphoreList().forEach(selectionSemaphoreDropdown::addItem);
+      this.cardLayout.show(cardPanel, "addDevicePanel");
+    });
+
     backButton1.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "mainMenuPanel"));
     backButton2.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "mainMenuPanel"));
     backButton3.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "mainMenuPanel"));
+    backButton4.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "mainMenuPanel"));
 
     confSemaphoresButton.addActionListener(actionEvent -> {
       semaphoresDropdown.removeAllItems();
@@ -85,6 +102,12 @@ public class UserInterface {
       speedRadarDropdown.removeAllItems();
       this.appManager.getSpeedRadarList().forEach(speedRadarDropdown::addItem);
       this.cardLayout.show(cardPanel, "configureSpeedRadarPanel");
+    });
+
+    confDisplaysButton.addActionListener(actionEvent -> {
+      displayDropdown.removeAllItems();
+      this.appManager.getDisplayList().forEach(displayDropdown::addItem);
+      this.cardLayout.show(cardPanel, "configureDisplayPanel");
     });
 
     modifySemaphore.addActionListener((actionEvent -> {
@@ -123,9 +146,7 @@ public class UserInterface {
       }
     });
 
-    infractionCommitButton.addActionListener(actionEvent -> {
-      this.appManager.processInfractions();
-    });
+    infractionCommitButton.addActionListener(actionEvent -> this.appManager.processInfractions());
 
     modifySpeedRadarButton.addActionListener(actionEvent -> {
       Map<String, String> newSpeedRadar = new HashMap<>();
@@ -147,6 +168,22 @@ public class UserInterface {
         this.appManager.stop();
       }
     });
+
+    displayDropdown.addActionListener(actionEvent -> {
+      final Object selectedItem = displayDropdown.getSelectedItem();
+
+      if (selectedItem != null) {
+        final Map<String, String> displayData = this.appManager.getDisplayData(selectedItem.toString());
+        ipAddressDispText.setText(displayData.getOrDefault(CustomConstants.IP_ADDRESS, ""));
+        messageDispText.setText(displayData.getOrDefault(CustomConstants.DISPLAY_MESSAGE, ""));
+        manualMessageCheckbox.setSelected(Boolean.parseBoolean(displayData.getOrDefault(CustomConstants.DISPLAY_MANUAL_MODE, "false")));
+        descriptionDispText.setText(displayData.getOrDefault(CustomConstants.DEVICE_DESCRIPTION, ""));
+      }
+
+      this.appManager.getDisplayList().forEach(speedRadarDropdown::addItem);
+    });
+
+    manualMessageCheckbox.addActionListener(actionEvent -> messageDispText.setEditable(!manualMessageCheckbox.isSelected()));
   }
 
   public void run() {

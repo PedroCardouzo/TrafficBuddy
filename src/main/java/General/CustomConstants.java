@@ -29,4 +29,16 @@ public class CustomConstants {
   public static final String DEFAULT_INFRACTION_HISTORY_POLL_PERIOD_SECONDS_JSON = "infractionHistoryPoolPeriodSeconds";
   public static final String START_TEXT = "Start";
   public static final String STOP_TEXT = "Stop";
+  public static final int DISPLAY_UPDATE_FREQUENCY = 10;
+  public static final String DISPLAY_MESSAGE = "displayMessage";
+  public static final String DISPLAY_MANUAL_MODE = "manualMode";
+
+  public static final int FLUX_HIGH_PERCENTAGE = 60;
+  public static final int FLUX_MEDIUM_PERCENTAGE = 35;
+  public static final int FLUX_LOW_PERCENTAGE = 5;
+  public static final String FLUX_VERY_HIGH_PERCENTAGE_MESSAGE = "Very High Flux";
+  public static final String FLUX_HIGH_PERCENTAGE_MESSAGE = "High Flux";
+  public static final String FLUX_MEDIUM_PERCENTAGE_MESSAGE = "Medium Flux";
+  public static final String FLUX_LOW_PERCENTAGE_MESSAGE = "Low Flux";
+
 }
