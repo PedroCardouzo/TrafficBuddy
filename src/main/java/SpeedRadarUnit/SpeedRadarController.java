@@ -13,6 +13,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
+import static java.lang.Integer.parseInt;
 
 public class SpeedRadarController implements ISpeedRadarController {
   private final ScheduledExecutorService es;
@@ -22,33 +25,37 @@ public class SpeedRadarController implements ISpeedRadarController {
   private ScheduledFuture<?> infractionPollTask;
 
 
-  public SpeedRadarController(IInfractionHistory infractionHistory, final int infractionHistoryPollPeriodSeconds) {
+  public SpeedRadarController(IInfractionHistory infractionHistory) {
     this.speedRadarDrivers = new ArrayList<>();
     this.infractionHistory = infractionHistory;
     this.es = Executors.newSingleThreadScheduledExecutor();
-    this.infractionHistoryPollPeriodSeconds = infractionHistoryPollPeriodSeconds;
+    this.infractionHistoryPollPeriodSeconds = CustomConstants.DEFAULT_INFRACTION_HISTORY_POLL_PERIOD_SECONDS;
   }
 
+  @Override
   public void setInfractionHistoryPollPeriod(final int infractionHistoryPollPeriodSeconds) {
     this.infractionHistoryPollPeriodSeconds = infractionHistoryPollPeriodSeconds;
-    while (!this.infractionPollTask.cancel(false));
+    while (this.infractionPollTask != null && !this.infractionPollTask.cancel(false));
     this.start();
-  }
-
-  public synchronized void attachSpeedRadar(final ISpeedRadarDriver srd) {
-    this.speedRadarDrivers.add(srd);
   }
 
   public synchronized void detachSpeedRadar(final int index) {
     this.speedRadarDrivers.remove(index);
   }
 
+  @Override
   public void start() {
     this.infractionPollTask = this.es.scheduleAtFixedRate(this::gatherInfractionsIntoHistory, 0, this.infractionHistoryPollPeriodSeconds, TimeUnit.SECONDS);
   }
 
+  @Override
   public void stop() {
     while (!this.infractionPollTask.cancel(false));
+  }
+
+  @Override
+  public List<String> getSpeedRadarList() {
+    return speedRadarDrivers.stream().map(ISpeedRadarDriver::getIp).collect(Collectors.toList());
   }
 
   @Override
@@ -78,7 +85,7 @@ public class SpeedRadarController implements ISpeedRadarController {
         newSpeedRadarData.put(CustomConstants.IP_ADDRESS, sd.getIp());
         newSpeedRadarData.put(CustomConstants.DEVICE_DESCRIPTION, sd.getDescription());
         newSpeedRadarData.put(CustomConstants.SPEED_LIMIT, String.valueOf(sd.getSpeedLimit()));
-
+        newSpeedRadarData.put(CustomConstants.DEFAULT_INFRACTION_HISTORY_POLL_PERIOD_SECONDS_JSON, String.valueOf(this.infractionHistoryPollPeriodSeconds));
         return newSpeedRadarData;
       }
     }
@@ -93,10 +100,14 @@ public class SpeedRadarController implements ISpeedRadarController {
 
     if (speedRadar != null) {
       speedRadar.setDescription(newSpeedRadarData.getOrDefault(CustomConstants.DEVICE_DESCRIPTION, ""));
-      final int newSpeedLimit = Integer.parseInt(newSpeedRadarData.getOrDefault(CustomConstants.SPEED_LIMIT, "0"));
+      final int newSpeedLimit = parseInt(newSpeedRadarData.getOrDefault(CustomConstants.SPEED_LIMIT, "0"));
 
-      if (newSpeedLimit != 0)
+      if (newSpeedLimit != 0) {
         speedRadar.setSpeedLimit(newSpeedLimit);
+      }
+
+      final int newInfractionHistoryPollPeriod = Integer.parseInt(newSpeedRadarData.getOrDefault(CustomConstants.DEFAULT_INFRACTION_HISTORY_POLL_PERIOD_SECONDS_JSON, String.valueOf(this.infractionHistoryPollPeriodSeconds)));
+      this.setInfractionHistoryPollPeriod(newInfractionHistoryPollPeriod);
     }
   }
 }

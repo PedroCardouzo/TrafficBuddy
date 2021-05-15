@@ -12,7 +12,15 @@ public interface ISpeedRadarController {
 
   void setSpeedRadarData(Map<String, String> speedRadarData);
 
+  void setInfractionHistoryPollPeriod(int infractionHistoryPollPeriodSeconds);
+
   List<JSONObject> collectInfractionHistory();
 
   void clearInfractionHistory();
+
+  void start();
+
+  void stop();
+
+  List<String> getSpeedRadarList();
 }

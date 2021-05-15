@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UserInterface {
-  private final ConfigurationManager confManager;
+  private final AppManager appManager;
   private JPanel cardPanel;
   private JPanel addDeviceViewPanel;
   private JTextField deviceIpTextField;
@@ -40,6 +40,12 @@ public class UserInterface {
   private JTextField descriptionSRText;
   private JPanel configureSpeedRadarPanel;
   private JButton infractionCommitButton;
+  private JButton modifySpeedRadarButton;
+  private JButton backButton3;
+  private JTextField reestimationTiming;
+  private JTextField infractionPollPeriodText;
+  private JPanel semaphoreMonitoring;
+  private JButton startStop;
   private CardLayout cardLayout;
   private ButtonGroup group;
 
@@ -49,28 +55,36 @@ public class UserInterface {
     group.add(speedRadar);
     group.add(display);
 
-    this.confManager = new ConfigurationManager();
+    this.appManager = new AppManager();
 
     addButton.addActionListener(actionEvent -> {
       final String ipAddress = deviceIpTextField.getText();
       final String description = descriptionTextField.getText();
+
       if (semaphore.isSelected()) {
-        this.confManager.attachSemaphore(ipAddress, description);
+        this.appManager.attachSemaphore(ipAddress, description);
       } else if (speedRadar.isSelected()) {
-        this.confManager.attachSpeedRadar(ipAddress, description);
+        this.appManager.attachSpeedRadar(ipAddress, description);
       } else if (display.isSelected()) {
-        this.confManager.attachDisplay(ipAddress, description);
+        this.appManager.attachDisplay(ipAddress, description);
       }
     });
 
     addDevicesButton.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "addDevicePanel"));
     backButton1.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "mainMenuPanel"));
     backButton2.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "mainMenuPanel"));
+    backButton3.addActionListener(actionEvent -> this.cardLayout.show(cardPanel, "mainMenuPanel"));
 
     confSemaphoresButton.addActionListener(actionEvent -> {
       semaphoresDropdown.removeAllItems();
-      this.confManager.getSemaphoreList().forEach(semaphoresDropdown::addItem);
+      this.appManager.getSemaphoreList().forEach(semaphoresDropdown::addItem);
       this.cardLayout.show(cardPanel, "configureSemaphoresPanel");
+    });
+
+    confSpeedRadarButton.addActionListener(actionEvent -> {
+      speedRadarDropdown.removeAllItems();
+      this.appManager.getSpeedRadarList().forEach(speedRadarDropdown::addItem);
+      this.cardLayout.show(cardPanel, "configureSpeedRadarPanel");
     });
 
     modifySemaphore.addActionListener((actionEvent -> {
@@ -79,19 +93,21 @@ public class UserInterface {
       newSemaphoreData.put(CustomConstants.TRAFFIC_FLUX, trafficFlux.getText());
       newSemaphoreData.put(CustomConstants.CYCLE_PERIOD, cyclePeriod.getText());
       newSemaphoreData.put(CustomConstants.DEVICE_DESCRIPTION, semDescription.getText());
-      this.confManager.setSemaphoreData(newSemaphoreData);
+      newSemaphoreData.put(CustomConstants.CONF_REESTIMATION_INTERVAL_JSON, reestimationTiming.getText());
+      this.appManager.setSemaphoreData(newSemaphoreData);
     }));
 
     semaphoresDropdown.addActionListener(actionEvent -> {
       final Object selectedItem = semaphoresDropdown.getSelectedItem();
 
       if (selectedItem != null) {
-        final Map<String, String> semaphoreData = this.confManager.getSemaphoreData(selectedItem.toString());
+        final Map<String, String> semaphoreData = this.appManager.getSemaphoreData(selectedItem.toString());
         ipAddress.setText(semaphoreData.getOrDefault(CustomConstants.IP_ADDRESS, ""));
         trafficFlux.setText(semaphoreData.getOrDefault(CustomConstants.TRAFFIC_FLUX, ""));
         cyclePeriod.setText(semaphoreData.getOrDefault(CustomConstants.CYCLE_PERIOD, ""));
         semDescription.setText(semaphoreData.getOrDefault(CustomConstants.DEVICE_DESCRIPTION, ""));
         openTimingLabel.setText(semaphoreData.getOrDefault(CustomConstants.SEMAPHORE_TIMING, ""));
+        reestimationTiming.setText(semaphoreData.getOrDefault(CustomConstants.CONF_REESTIMATION_INTERVAL_JSON, ""));
       }
     });
 
@@ -99,21 +115,37 @@ public class UserInterface {
       final Object selectedItem = speedRadarDropdown.getSelectedItem();
 
       if (selectedItem != null) {
-        final Map<String, String> semaphoreData = this.confManager.getSpeedRadarData(selectedItem.toString());
+        final Map<String, String> semaphoreData = this.appManager.getSpeedRadarData(selectedItem.toString());
         ipAddressSRText.setText(semaphoreData.getOrDefault(CustomConstants.IP_ADDRESS, ""));
-        speedLimitText.setText(semaphoreData.getOrDefault(CustomConstants.TRAFFIC_FLUX, ""));
+        speedLimitText.setText(semaphoreData.getOrDefault(CustomConstants.SPEED_LIMIT, ""));
         descriptionSRText.setText(semaphoreData.getOrDefault(CustomConstants.DEVICE_DESCRIPTION, ""));
+        infractionPollPeriodText.setText(semaphoreData.getOrDefault(CustomConstants.DEFAULT_INFRACTION_HISTORY_POLL_PERIOD_SECONDS_JSON, ""));
       }
     });
 
-    confSpeedRadarButton.addActionListener(actionEvent -> {
-      speedRadarDropdown.removeAllItems();
-      this.confManager.getSemaphoreList().forEach(speedRadarDropdown::addItem);
-      this.cardLayout.show(cardPanel, "configureSpeedRadarPanel");
+    infractionCommitButton.addActionListener(actionEvent -> {
+      this.appManager.processInfractions();
     });
 
-    infractionCommitButton.addActionListener(actionEvent -> {
-      this.confManager.processInfractions();
+    modifySpeedRadarButton.addActionListener(actionEvent -> {
+      Map<String, String> newSpeedRadar = new HashMap<>();
+      newSpeedRadar.put(CustomConstants.IP_ADDRESS, ipAddressSRText.getText());
+      newSpeedRadar.put(CustomConstants.DEVICE_DESCRIPTION, descriptionSRText.getText());
+      newSpeedRadar.put(CustomConstants.SPEED_LIMIT, speedLimitText.getText());
+      newSpeedRadar.put(CustomConstants.DEFAULT_INFRACTION_HISTORY_POLL_PERIOD_SECONDS_JSON, infractionPollPeriodText.getText());
+      this.appManager.setSpeedRadarData(newSpeedRadar);
+    });
+
+    startStop.addActionListener(actionEvent -> {
+      final String currentMode = startStop.getText();
+      final String nextMode = currentMode.equals(CustomConstants.START_TEXT) ? CustomConstants.STOP_TEXT : CustomConstants.START_TEXT;
+      startStop.setText(nextMode); // flip
+
+      if (currentMode.equals(CustomConstants.START_TEXT)) {
+        this.appManager.start();
+      } else {
+        this.appManager.stop();
+      }
     });
   }
 

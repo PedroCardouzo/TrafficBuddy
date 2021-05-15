@@ -24,5 +24,9 @@ public class CustomConstants {
 
   // TODO make configurable
   public static final int CONF_REESTIMATION_INTERVAL = 5;
+  public static final String CONF_REESTIMATION_INTERVAL_JSON = "reestimationInterval";
   public static final int DEFAULT_INFRACTION_HISTORY_POLL_PERIOD_SECONDS = 20;
+  public static final String DEFAULT_INFRACTION_HISTORY_POLL_PERIOD_SECONDS_JSON = "infractionHistoryPoolPeriodSeconds";
+  public static final String START_TEXT = "Start";
+  public static final String STOP_TEXT = "Stop";
 }

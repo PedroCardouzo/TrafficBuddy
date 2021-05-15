@@ -4,7 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ISemaphoreController {
-    Map<String, String> getSemaphoreData(final String target);
+  void changeReestimationInterval(int newInterval);
+
+  Map<String, String> getSemaphoreData(final String target);
 
   void setSemaphoreData(Map<String, String> newSemaphoreData);
 
@@ -12,4 +14,7 @@ public interface ISemaphoreController {
 
   void attachSemaphore(final ISemaphoreDriver sd, final ITrafficCameraDriver tcd);
 
-  }
+  void start();
+
+  void stop();
+}

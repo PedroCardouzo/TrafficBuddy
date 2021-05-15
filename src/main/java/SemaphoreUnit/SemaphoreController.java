@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,8 @@ public class SemaphoreController implements ISemaphoreController {
   private final ScheduledExecutorService es;
   private int currentOpen;
   private boolean active;
+  private ScheduledFuture<?> periodicTask;
+  private int currentReestimationInterval;
 
   public SemaphoreController(final ISemaphoreHistory semaphoreHistory) {
     this.active = false;
@@ -64,12 +67,31 @@ public class SemaphoreController implements ISemaphoreController {
     return sb.toString();
   }
 
+  @Override
+  public void changeReestimationInterval(final int newInterval) {
+    if (newInterval == this.currentReestimationInterval && this.active)
+      return;
+
+    this.stop();
+    this.start(newInterval);
+  }
+
+  @Override
   public void start() {
+    this.start(CustomConstants.CONF_REESTIMATION_INTERVAL);
+  }
+
+  public void start(final int interval) {
     this.active = true;
-    this.es.scheduleAtFixedRate(this::reestimateTimings, 0, CustomConstants.CONF_REESTIMATION_INTERVAL, TimeUnit.SECONDS);
+    this.currentReestimationInterval = interval;
+
+    while (this.periodicTask != null && !this.periodicTask.cancel(false));
+
+    this.periodicTask = this.es.scheduleAtFixedRate(this::reestimateTimings, 0, interval, TimeUnit.SECONDS);
     this.next();
   }
 
+  @Override
   public void stop() {
     this.active = false;
     this.semaphoreDrivers.forEach(ISemaphoreDriver::close);
@@ -90,6 +112,8 @@ public class SemaphoreController implements ISemaphoreController {
           newSemaphoreData.put(CustomConstants.CYCLE_PERIOD, String.valueOf(openTimings.stream().mapToInt(Integer::intValue).sum()));
           newSemaphoreData.put(CustomConstants.SEMAPHORE_TIMING, String.valueOf(openTimings.get(i)));
         }
+
+        newSemaphoreData.put(CustomConstants.CONF_REESTIMATION_INTERVAL_JSON, String.valueOf(this.currentReestimationInterval));
 
         return newSemaphoreData;
       }
@@ -113,6 +137,9 @@ public class SemaphoreController implements ISemaphoreController {
         final int sum = openTimings.stream().mapToInt(Integer::intValue).sum();
         this.openTimings = openTimings.stream().map(x -> x * newSum / sum).collect(Collectors.toList()); // scale timings equally
       }
+
+      final int newReestimationTiming = Integer.parseInt(newSemaphoreData.getOrDefault(CustomConstants.CONF_REESTIMATION_INTERVAL_JSON, "0"));
+      this.changeReestimationInterval(newReestimationTiming);
     }
   }
 

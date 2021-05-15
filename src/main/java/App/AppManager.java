@@ -15,13 +15,13 @@ import org.json.JSONObject;
 import java.util.List;
 import java.util.Map;
 
-public class ConfigurationManager {
+public class AppManager {
   private final ISemaphoreController semaphoreController;
   private final ISpeedRadarController speedRadarController;
 
-  public ConfigurationManager() {
+  public AppManager() {
     this.semaphoreController = new SemaphoreController(new SemaphoreHistory());
-    this.speedRadarController = new SpeedRadarController(new InfractionHistory(), CustomConstants.DEFAULT_INFRACTION_HISTORY_POLL_PERIOD_SECONDS);
+    this.speedRadarController = new SpeedRadarController(new InfractionHistory());
   }
 
   public void setSemaphoreData(Map<String, String> newSemaphoreData) {
@@ -58,5 +58,23 @@ public class ConfigurationManager {
     // TODO database store here
     // after
     this.speedRadarController.clearInfractionHistory();
+  }
+
+  public void setSpeedRadarData(final Map<String, String> newSpeedRadarData) {
+    this.speedRadarController.setSpeedRadarData(newSpeedRadarData);
+  }
+
+  public void start() {
+    this.speedRadarController.start();
+    this.semaphoreController.start();
+  }
+
+  public void stop() {
+    this.speedRadarController.stop();
+    this.semaphoreController.stop();
+  }
+
+  public List<String> getSpeedRadarList() {
+    return this.speedRadarController.getSpeedRadarList();
   }
 }
