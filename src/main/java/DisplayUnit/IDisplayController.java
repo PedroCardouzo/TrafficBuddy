@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IDisplayController {
-  void attachDisplay(IDisplayDriver displayDriver, ISemaphoreDriver semaphoreDriver);
+  void attachDisplay(IDisplayDriver displayDriver);
 
   List<String> getDisplayList();
 
