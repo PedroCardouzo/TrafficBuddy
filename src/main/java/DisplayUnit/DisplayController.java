@@ -12,26 +12,11 @@ import java.util.stream.Collectors;
 
 public class DisplayController implements IDisplayController {
   private List<IDisplayDriver> displays;
-//  private final ScheduledExecutorService es;
-//  private List<ISemaphoreDriver> semaphoreDrivers;
-//  private ScheduledFuture<?> periodicTask;
 
 
   public DisplayController(final IHistoryRecorder displayHistory) {
     this.displays = new ArrayList<>();
-//    this.semaphoreDrivers = new ArrayList<>();
-//    this.es = Executors.newSingleThreadScheduledExecutor();
-//    this.periodicTask = this.es.scheduleAtFixedRate(this::updateDisplays, 0, CustomConstants.DISPLAY_UPDATE_FREQUENCY, TimeUnit.SECONDS);
   }
-
-//  private void updateDisplays() {
-//    for (int i = 0; i < displays.size(); i++) {
-//      IDisplayDriver dd = displays.get(i);
-//      ISemaphoreDriver sd = semaphoreDrivers.get(i);
-//
-//      dd.setMessage(sd.getFluxIntensityMessage());
-//    }
-//  }
 
   @Override
   public void attachDisplay(final IDisplayDriver displayDriver) {
