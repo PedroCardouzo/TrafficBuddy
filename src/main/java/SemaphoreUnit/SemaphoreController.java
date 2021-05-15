@@ -1,5 +1,6 @@
 package SemaphoreUnit;
 
+import DisplayUnit.IDisplayDriver;
 import General.CustomConstants;
 import General.IHistoryRecorder;
 import org.json.JSONObject;
@@ -90,6 +91,11 @@ public class SemaphoreController implements ISemaphoreController {
     }
 
     return json;
+  }
+
+  @Override
+  public void attachDisplay(String semaphoreIpAddress, IDisplayDriver dd) {
+    this.getSemaphore(semaphoreIpAddress).attachDisplay(dd);
   }
 
   @Override

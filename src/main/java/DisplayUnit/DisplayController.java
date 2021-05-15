@@ -1,6 +1,7 @@
 package DisplayUnit;
 
 import General.CustomConstants;
+import General.IHistoryRecorder;
 import SemaphoreUnit.ISemaphoreDriver;
 import SpeedRadarUnit.ISpeedRadarDriver;
 
@@ -22,7 +23,7 @@ public class DisplayController implements IDisplayController {
   private ScheduledFuture<?> periodicTask;
 
 
-  public DisplayController(final IDisplayHistory displayHistory) {
+  public DisplayController(final IHistoryRecorder displayHistory) {
     this.displays = new ArrayList<>();
     this.semaphoreDrivers = new ArrayList<>();
     this.es = Executors.newSingleThreadScheduledExecutor();

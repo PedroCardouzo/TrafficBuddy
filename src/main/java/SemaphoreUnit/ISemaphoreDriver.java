@@ -1,5 +1,7 @@
 package SemaphoreUnit;
 
+import DisplayUnit.IDisplayDriver;
+
 public interface ISemaphoreDriver {
   void close();
 
@@ -14,4 +16,6 @@ public interface ISemaphoreDriver {
   void setFluxIntensityMessage(String fluxIntensity);
 
   String getFluxIntensityMessage();
+
+  void attachDisplay(IDisplayDriver dd);
 }

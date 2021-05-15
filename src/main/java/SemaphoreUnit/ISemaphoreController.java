@@ -1,5 +1,6 @@
 package SemaphoreUnit;
 
+import DisplayUnit.IDisplayDriver;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -23,4 +24,6 @@ public interface ISemaphoreController {
   ISemaphoreDriver getSemaphore(String ipAddress);
 
   JSONObject toJson();
+
+  void attachDisplay(String semaphoreIpAddress, IDisplayDriver dd);
 }

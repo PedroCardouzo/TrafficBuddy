@@ -2,7 +2,7 @@ package App;
 
 import DisplayUnit.DisplayController;
 import DisplayUnit.DisplayDriver;
-import DisplayUnit.DisplayHistory;
+import DisplayUnit.IDisplayDriver;
 import General.CustomConstants;
 import SemaphoreUnit.ISemaphoreController;
 import SemaphoreUnit.SemaphoreController;
@@ -25,7 +25,7 @@ public class AppManager {
   public AppManager() {
     this.semaphoreController = new SemaphoreController(new HistoryRecorder());
     this.speedRadarController = new SpeedRadarController(new HistoryRecorder());
-    this.displayController = new DisplayController(new DisplayHistory());
+    this.displayController = new DisplayController(new HistoryRecorder());
   }
 
   public void setSemaphoreData(Map<String, String> newSemaphoreData) {
@@ -49,7 +49,9 @@ public class AppManager {
   }
 
   public void attachDisplay(final String ipAddress, final String description, final String semaphoreIpAddress) {
-    this.displayController.attachDisplay(new DisplayDriver(ipAddress, description), this.semaphoreController.getSemaphore(semaphoreIpAddress));
+    IDisplayDriver dd = new DisplayDriver(ipAddress, description);
+    this.displayController.attachDisplay(dd);
+    this.semaphoreController.attachDisplay(semaphoreIpAddress, dd);
   }
 
   public Map<String, String> getSpeedRadarData(final String selectedSpeedRadar) {
