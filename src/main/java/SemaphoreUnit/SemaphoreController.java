@@ -1,7 +1,11 @@
 package SemaphoreUnit;
 
 import General.CustomConstants;
+import General.IHistoryRecorder;
+import org.json.JSONObject;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -17,14 +21,14 @@ public class SemaphoreController implements ISemaphoreController {
   private List<ISemaphoreDriver> semaphoreDrivers;
   private List<ITrafficCameraDriver> trafficCameraDrivers;
   private List<Integer> openTimings;
-  private final ISemaphoreHistory semaphoreHistory;
+  private final IHistoryRecorder semaphoreHistory;
   private final ScheduledExecutorService es;
   private int currentOpen;
   private boolean active;
   private ScheduledFuture<?> periodicTask;
   private int currentReestimationInterval;
 
-  public SemaphoreController(final ISemaphoreHistory semaphoreHistory) {
+  public SemaphoreController(final IHistoryRecorder semaphoreHistory) {
     this.active = false;
     this.semaphoreDrivers = new ArrayList<>();
     this.trafficCameraDrivers = new ArrayList<>();
@@ -65,6 +69,27 @@ public class SemaphoreController implements ISemaphoreController {
     }
 
     return sb.toString();
+  }
+
+  @Override
+  public JSONObject toJson() {
+    List<Integer> copyTimings;
+    synchronized (this) {
+      copyTimings = new ArrayList<>(this.openTimings);
+    }
+
+    final JSONObject json = new JSONObject();
+
+    for (int i = 0; i < semaphoreDrivers.size(); i++) {
+      final ISemaphoreDriver sd = semaphoreDrivers.get(i);
+      json.put(CustomConstants.IP_ADDRESS, sd.getIp());
+      json.put(CustomConstants.TRAFFIC_FLUX, trafficCameraDrivers.get(i).getTrafficFlux());
+      json.put(CustomConstants.DEVICE_DESCRIPTION, sd.getDescription());
+      json.put(CustomConstants.SEMAPHORE_TIMING, copyTimings.get(i));
+      json.put(CustomConstants.TIMESTAMP_JSON, Timestamp.from(Instant.now()).toString());
+    }
+
+    return json;
   }
 
   @Override
@@ -177,7 +202,7 @@ public class SemaphoreController implements ISemaphoreController {
     this.es.schedule(this::next, timing, TimeUnit.SECONDS);
   }
 
-  public List<String> getHistory() {
+  public List<JSONObject> getHistory() {
     return this.semaphoreHistory.getLogs();
   }
 
@@ -199,7 +224,7 @@ public class SemaphoreController implements ISemaphoreController {
       sd.setFluxIntensityMessage(this.getFluxIntensity(tcd.getTrafficFlux(), totalFlux));
     }
 
-    this.semaphoreHistory.log(this.toString());
+    this.semaphoreHistory.log(this.toJson());
   }
 
   private String getFluxIntensity(int trafficFlux, int totalFlux) {

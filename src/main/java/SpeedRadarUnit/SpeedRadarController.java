@@ -1,7 +1,7 @@
 package SpeedRadarUnit;
 
 import General.CustomConstants;
-import netscape.javascript.JSObject;
+import General.IHistoryRecorder;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ public class SpeedRadarController implements ISpeedRadarController {
   private final ScheduledExecutorService es;
   private int infractionHistoryPollPeriodSeconds;
   private List<ISpeedRadarDriver> speedRadarDrivers;
-  private final IInfractionHistory infractionHistory;
+  private final IHistoryRecorder infractionHistory;
   private ScheduledFuture<?> infractionPollTask;
 
 
-  public SpeedRadarController(IInfractionHistory infractionHistory) {
+  public SpeedRadarController(IHistoryRecorder infractionHistory) {
     this.speedRadarDrivers = new ArrayList<>();
     this.infractionHistory = infractionHistory;
     this.es = Executors.newSingleThreadScheduledExecutor();

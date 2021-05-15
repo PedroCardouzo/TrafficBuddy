@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62aab043-2636-47b6-b019-8d26a72ebaff" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreHistoryRecorder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/App/AppManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App/AppManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreHistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreHistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/IInfractionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/General/IHistoryRecorder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/InfractionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/InfractionHistoryRecorder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarController.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,6 +46,9 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="General" />
+    </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="SpeedRadarUnit" />
       <recent name="SemaphoreUnit" />
@@ -107,7 +119,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java</url>
-          <line>158</line>
+          <line>183</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
@@ -115,7 +127,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java</url>
-          <line>113</line>
+          <line>138</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>

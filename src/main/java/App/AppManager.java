@@ -7,10 +7,9 @@ import General.CustomConstants;
 import SemaphoreUnit.ISemaphoreController;
 import SemaphoreUnit.SemaphoreController;
 import SemaphoreUnit.SemaphoreDriver;
-import SemaphoreUnit.SemaphoreHistory;
 import SemaphoreUnit.TrafficCameraDriver;
 import SpeedRadarUnit.ISpeedRadarController;
-import SpeedRadarUnit.InfractionHistory;
+import General.HistoryRecorder;
 import SpeedRadarUnit.SpeedRadarController;
 import SpeedRadarUnit.SpeedRadarDriver;
 import org.json.JSONObject;
@@ -24,8 +23,8 @@ public class AppManager {
   private final DisplayController displayController;
 
   public AppManager() {
-    this.semaphoreController = new SemaphoreController(new SemaphoreHistory());
-    this.speedRadarController = new SpeedRadarController(new InfractionHistory());
+    this.semaphoreController = new SemaphoreController(new HistoryRecorder());
+    this.speedRadarController = new SpeedRadarController(new HistoryRecorder());
     this.displayController = new DisplayController(new DisplayHistory());
   }
 

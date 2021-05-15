@@ -1,5 +1,7 @@
 package SemaphoreUnit;
 
+import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -19,4 +21,6 @@ public interface ISemaphoreController {
   void stop();
 
   ISemaphoreDriver getSemaphore(String ipAddress);
+
+  JSONObject toJson();
 }
