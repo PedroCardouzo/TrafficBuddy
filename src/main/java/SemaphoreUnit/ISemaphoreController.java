@@ -9,6 +9,8 @@ import java.util.Map;
 public interface ISemaphoreController {
   void changeReestimationInterval(int newInterval);
 
+  ITrafficCameraDriver getTrafficCamera(String ipAddress);
+
   Map<String, String> getSemaphoreData(final String target);
 
   void setSemaphoreData(Map<String, String> newSemaphoreData);
@@ -20,8 +22,6 @@ public interface ISemaphoreController {
   void start();
 
   void stop();
-
-  ISemaphoreDriver getSemaphore(String ipAddress);
 
   JSONObject toJson();
 

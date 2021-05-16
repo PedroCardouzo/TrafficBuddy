@@ -2,16 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62aab043-2636-47b6-b019-8d26a72ebaff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreHistoryRecorder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/General/ITrafficFluxSubject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/General/ObservableSubject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/General/Observer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/App/AppManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App/AppManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/App/UserInterface.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App/UserInterface.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DisplayUnit/DisplayController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DisplayUnit/DisplayController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DisplayUnit/DisplayDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DisplayUnit/DisplayDriver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreHistory.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ISemaphoreDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ITrafficCameraDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/ITrafficCameraDriver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreHistory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/IInfractionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/General/IHistoryRecorder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/InfractionHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/InfractionHistoryRecorder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/TrafficCameraDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/TrafficCameraDriver.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -50,6 +54,7 @@
       <recent name="General" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
+      <recent name="General" />
       <recent name="SpeedRadarUnit" />
       <recent name="SemaphoreUnit" />
     </key>
@@ -119,19 +124,16 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java</url>
-          <line>183</line>
+          <line>204</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java</url>
-          <line>138</line>
-          <properties>
-            <option name="lambda-ordinal" value="-1" />
-          </properties>
-          <option name="timeStamp" value="5" />
+          <url>file://$PROJECT_DIR$/src/main/java/DisplayUnit/DisplayDriver.java</url>
+          <line>25</line>
+          <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

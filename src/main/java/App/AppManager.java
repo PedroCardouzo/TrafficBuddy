@@ -61,7 +61,7 @@ public class AppManager {
   public void processInfractions() {
     List<JSONObject> infractionHistory = this.speedRadarController.collectInfractionHistory();
     infractionHistory.forEach(System.out::println);
-    
+
     this.speedRadarController.clearInfractionHistory();
   }
 

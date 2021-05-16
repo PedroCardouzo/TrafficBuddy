@@ -1,6 +1,8 @@
 package DisplayUnit;
 
-public class DisplayDriver implements IDisplayDriver {
+import General.Observer;
+
+public class DisplayDriver extends Observer implements IDisplayDriver {
   private final String ipAddress;
   private String description;
   private String message;
@@ -53,5 +55,10 @@ public class DisplayDriver implements IDisplayDriver {
   @Override
   public void setDescription(String description) {
     this.description = description;
+  }
+
+  @Override
+  public void update(String data) {
+    this.setMessage(data);
   }
 }

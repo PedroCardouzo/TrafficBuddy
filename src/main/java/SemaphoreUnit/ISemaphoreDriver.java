@@ -12,10 +12,4 @@ public interface ISemaphoreDriver {
   String getDescription();
 
   void setDescription(String description);
-
-  void setFluxIntensityMessage(String fluxIntensity);
-
-  String getFluxIntensityMessage();
-
-  void attachDisplay(IDisplayDriver dd);
 }

@@ -3,6 +3,9 @@ package SemaphoreUnit;
 import DisplayUnit.IDisplayDriver;
 import General.CustomConstants;
 import General.IHistoryRecorder;
+import General.ITrafficFluxSubject;
+import General.ObservableSubject;
+import General.Observer;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -95,7 +98,13 @@ public class SemaphoreController implements ISemaphoreController {
 
   @Override
   public void attachDisplay(String semaphoreIpAddress, IDisplayDriver dd) {
-    this.getSemaphore(semaphoreIpAddress).attachDisplay(dd);
+    final ITrafficCameraDriver tcd = this.getTrafficCamera(semaphoreIpAddress);
+
+    // attach observer
+    if (tcd instanceof ObservableSubject && dd instanceof Observer) {
+      ObservableSubject os = (ObservableSubject) tcd;
+      os.attach((Observer) dd);
+    }
   }
 
   @Override
@@ -129,8 +138,14 @@ public class SemaphoreController implements ISemaphoreController {
   }
 
   @Override
-  public ISemaphoreDriver getSemaphore(String ipAddress) {
-    return semaphoreDrivers.stream().filter((ISemaphoreDriver x) -> x.getIp().equals(ipAddress)).findFirst().orElse(null);
+  public ITrafficCameraDriver getTrafficCamera(final String ipAddress) {
+    for (int i = 0; i < semaphoreDrivers.size(); i++) {
+      if (ipAddress.equals(semaphoreDrivers.get(i).getIp())) {
+        return this.trafficCameraDrivers.get(i);
+      }
+    }
+
+    return null;
   }
 
   @Override
@@ -219,15 +234,12 @@ public class SemaphoreController implements ISemaphoreController {
     // calculate relative flux
     synchronized (this) {
       final int totalTime = openTimings.stream().mapToInt(Integer::intValue).sum();
-
       this.openTimings = trafficFlux.stream().map(flux -> totalTime * flux / totalFlux).collect(Collectors.toList());
     }
 
     for (int i = 0; i < semaphoreDrivers.size(); i++) {
-      final ISemaphoreDriver sd = semaphoreDrivers.get(i);
       final ITrafficCameraDriver tcd = trafficCameraDrivers.get(i);
-
-      sd.setFluxIntensityMessage(this.getFluxIntensity(tcd.getTrafficFlux(), totalFlux));
+      tcd.setFluxIntensityMessage(this.getFluxIntensity(tcd.getTrafficFlux(), totalFlux));
     }
 
     this.semaphoreHistory.log(this.toJson());
