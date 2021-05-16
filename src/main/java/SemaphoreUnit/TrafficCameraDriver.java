@@ -1,11 +1,8 @@
 package SemaphoreUnit;
 
-import DisplayUnit.IDisplayDriver;
 import General.CustomConstants;
-import General.ITrafficFluxSubject;
 import General.ObservableSubject;
 
-import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TrafficCameraDriver extends ObservableSubject implements ITrafficCameraDriver {

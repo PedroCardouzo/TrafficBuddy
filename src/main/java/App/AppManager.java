@@ -2,6 +2,7 @@ package App;
 
 import DisplayUnit.DisplayController;
 import DisplayUnit.DisplayDriver;
+import DisplayUnit.IDisplayController;
 import DisplayUnit.IDisplayDriver;
 import General.CustomConstants;
 import SemaphoreUnit.ISemaphoreController;
@@ -20,7 +21,7 @@ import java.util.Map;
 public class AppManager implements IAppManager{
   private final ISemaphoreController semaphoreController;
   private final ISpeedRadarController speedRadarController;
-  private final DisplayController displayController;
+  private final IDisplayController displayController;
 
   public AppManager() {
     this.semaphoreController = new SemaphoreController(new HistoryRecorder());

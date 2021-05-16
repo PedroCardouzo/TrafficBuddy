@@ -1,8 +1,9 @@
 package DisplayUnit;
 
-import General.Observer;
 
-public class DisplayDriver extends Observer implements IDisplayDriver {
+import General.IObserver;
+
+public class DisplayDriver implements IObserver, IDisplayDriver {
   private final String ipAddress;
   private String description;
   private String message;

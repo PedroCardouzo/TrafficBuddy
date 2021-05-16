@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="62aab043-2636-47b6-b019-8d26a72ebaff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/App/IAppManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/General/IObserver.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/App/AppManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App/AppManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/App/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/App/UserInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/DisplayUnit/DisplayDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/DisplayUnit/DisplayDriver.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/General/ITrafficFluxSubject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/General/ObservableSubject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/General/ObservableSubject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/General/Observer.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/TrafficCameraDriver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SemaphoreUnit/TrafficCameraDriver.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SpeedRadarUnit/SpeedRadarController.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -118,7 +120,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/SemaphoreUnit/SemaphoreController.java</url>
-          <line>204</line>
+          <line>203</line>
           <properties>
             <option name="lambda-ordinal" value="-1" />
           </properties>
@@ -126,7 +128,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/DisplayUnit/DisplayDriver.java</url>
-          <line>25</line>
+          <line>26</line>
           <option name="timeStamp" value="23" />
         </line-breakpoint>
       </breakpoints>

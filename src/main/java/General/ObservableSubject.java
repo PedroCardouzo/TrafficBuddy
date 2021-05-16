@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ObservableSubject {
-  private final List<Observer> observerList;
+  private final List<IObserver> observerList;
 
   public ObservableSubject() {
     this.observerList = new ArrayList<>();
   }
 
-  public void attach(final Observer observer) {
+  public void attach(final IObserver observer) {
     this.observerList.add(observer);
   }
 

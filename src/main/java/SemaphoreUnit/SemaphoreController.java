@@ -3,9 +3,8 @@ package SemaphoreUnit;
 import DisplayUnit.IDisplayDriver;
 import General.CustomConstants;
 import General.IHistoryRecorder;
-import General.ITrafficFluxSubject;
+import General.IObserver;
 import General.ObservableSubject;
-import General.Observer;
 import org.json.JSONObject;
 
 import java.sql.Timestamp;
@@ -101,9 +100,9 @@ public class SemaphoreController implements ISemaphoreController {
     final ITrafficCameraDriver tcd = this.getTrafficCamera(semaphoreIpAddress);
 
     // attach observer
-    if (tcd instanceof ObservableSubject && dd instanceof Observer) {
+    if (tcd instanceof ObservableSubject && dd instanceof IObserver) {
       ObservableSubject os = (ObservableSubject) tcd;
-      os.attach((Observer) dd);
+      os.attach((IObserver) dd);
     }
   }
 
