@@ -2,6 +2,7 @@ package DisplayUnit;
 
 import General.CustomConstants;
 import General.IHistoryRecorder;
+import org.json.JSONObject;
 
 import java.util.ArrayList;;
 import java.util.Collections;
@@ -11,11 +12,13 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DisplayController implements IDisplayController {
+  private final IHistoryRecorder displayHistory;
   private List<IDisplayDriver> displays;
 
 
   public DisplayController(final IHistoryRecorder displayHistory) {
     this.displays = new ArrayList<>();
+    this.displayHistory = displayHistory;
   }
 
   @Override
@@ -60,6 +63,8 @@ public class DisplayController implements IDisplayController {
         display.exitManualMode();
         display.setMessage(msg);
       }
+
+      this.displayHistory.log(newDisplayData);
     }
   }
 }
