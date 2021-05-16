@@ -15,8 +15,6 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import static java.lang.Integer.parseInt;
-
 public class SpeedRadarController implements ISpeedRadarController {
   private final ScheduledExecutorService es;
   private int infractionHistoryPollPeriodSeconds;
@@ -100,7 +98,7 @@ public class SpeedRadarController implements ISpeedRadarController {
 
     if (speedRadar != null) {
       speedRadar.setDescription(newSpeedRadarData.getOrDefault(CustomConstants.DEVICE_DESCRIPTION, ""));
-      final int newSpeedLimit = parseInt(newSpeedRadarData.getOrDefault(CustomConstants.SPEED_LIMIT, "0"));
+      final int newSpeedLimit = Integer.parseInt(newSpeedRadarData.getOrDefault(CustomConstants.SPEED_LIMIT, "0"));
 
       if (newSpeedLimit != 0) {
         speedRadar.setSpeedLimit(newSpeedLimit);

@@ -18,7 +18,6 @@ public class TrafficCameraDriver extends ObservableSubject implements ITrafficCa
     super();
     this.ip = ip;
     this.currentFlux = ThreadLocalRandom.current().nextInt(CustomConstants.DEFAULT_UPPER_BOUND);
-//    this.fluxObserver = new TrafficTrafficFluxSubject();
   }
 
   @Override

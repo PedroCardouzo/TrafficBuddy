@@ -4,14 +4,12 @@ import General.CustomConstants;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public class UserInterface {
-  private final AppManager appManager;
+  private final IAppManager appManager;
   private JPanel cardPanel;
   private JPanel addDeviceViewPanel;
   private JTextField deviceIpTextField;

@@ -231,17 +231,14 @@ public class SemaphoreController implements ISemaphoreController {
   private void reestimateTimings() {
     final List<Integer> trafficFlux = trafficCameraDrivers.stream().map(ITrafficCameraDriver::getTrafficFlux).collect(Collectors.toList());
     final int totalFlux = trafficFlux.stream().mapToInt(Integer::intValue).sum();
+
     // calculate relative flux
     synchronized (this) {
       final int totalTime = openTimings.stream().mapToInt(Integer::intValue).sum();
       this.openTimings = trafficFlux.stream().map(flux -> totalTime * flux / totalFlux).collect(Collectors.toList());
     }
 
-    for (int i = 0; i < semaphoreDrivers.size(); i++) {
-      final ITrafficCameraDriver tcd = trafficCameraDrivers.get(i);
-      tcd.setFluxIntensityMessage(this.getFluxIntensity(tcd.getTrafficFlux(), totalFlux));
-    }
-
+    trafficCameraDrivers.forEach(tcd -> tcd.setFluxIntensityMessage(this.getFluxIntensity(tcd.getTrafficFlux(), totalFlux)));
     this.semaphoreHistory.log(this.toJson());
   }
 
